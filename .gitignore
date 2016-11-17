@@ -1,0 +1,11 @@
+project/logs
+project/target
+project/project/project
+project/project/target
+project/.idea
+project/.idea_modules
+project/.classpath
+project/.project
+project/.settings
+project/RUNNING_PID
+project/bin
