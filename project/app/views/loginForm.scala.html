@@ -1,0 +1,10 @@
+@(formulario: DynamicForm)
+@import b3.vertical.fieldConstructor;
+@main("Login") {
+	@b3.form(routes.UserController.login) {
+		<h1>Login</h1>
+		@b3.email(formulario("email"), '_label -> "Email", 'autocomplete -> false)
+		@b3.password(formulario("password"), '_label -> "Password", 'autocomplete -> false)
+		@b3.submit('class -> "btn btn-primary") { Login }
+	}
+}

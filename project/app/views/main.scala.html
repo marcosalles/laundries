@@ -1,37 +1,37 @@
 @(title: String)(content: Html)
 
-@usuario() = @{
-	Http.Context.current().args.get("usuario").asInstanceOf[Usuario]
+@user() = @{
+	Http.Context.current().args.get("user").asInstanceOf[User]
 }
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>@title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("bootstrap/css/bootstrap.min.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-    </head>
-    <body>
-	    	<header class="navbar navbar-default">
-		  <div class="container" role="presentation">
-		    <ul class="nav navbar-nav navbar-right">
-		      @if(usuario() != null) {
-			      <li><a href="@routes.UsuarioController.painel">Painel</a></li>
-			      @if(usuario().isAdmin()) {
-			      <li><a href="@routes.AdminController.usuarios">Usuários</a></li>
-			      <li><a href="@routes.AdminController.produtos">Produtos</a></li>
-			      }
-			      <li><a href="@routes.UsuarioController.fazLogout">Logout</a></li>
-		      }
-		    </ul>
-		  </div>
+	<head>
+		<title>@title</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("bootstrap/css/bootstrap.min.css")">
+		<link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+	</head>
+	<body>
+		<header class="navbar navbar-default">
+			<div class="container" role="presentation">
+				<ul class="nav navbar-nav navbar-right">
+				@if(user() != null) {
+					<li><a href="@routes.UserController.dashboard">Dashboard</a></li>
+					@if(user().isAdmin()) {
+						<li><a href="@routes.AdminController.users">Users</a></li>
+						<li><a href="@routes.AdminController.laundries">Laundries</a></li>
+					}
+					<li><a href="@routes.UserController.logout">Logout</a></li>
+				}
+				</ul>
+			</div>
 		</header>
-		@notificacoes()
+		@alerts()
 		<main class="container">
-			@content
+		@content
 		</main>
 		<script type="text/javascript" src="@routes.Assets.versioned("bootstrap/js/jquery.min.js")"></script>
 		<script type="text/javascript" src="@routes.Assets.versioned("bootstrap/js/bootstrap.min.js")"></script>
-    </body>
+	</body>
 </html>

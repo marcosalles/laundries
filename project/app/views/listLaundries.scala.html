@@ -1,0 +1,31 @@
+@(laundries: List[Laundry])
+
+@asMoney(value: Double) = @{
+    String.format("R$%.2f", value)
+}
+@main("Laundries list") {
+    <section class="panel panel-default">
+        <header class="panel-heading">
+            <h2 class="panel-title">Laundries list</h2>
+        </header>
+        <div class="panel-body">
+            <a class="btn btn-info" href="@routes.LaundryController.newLaundryForm">New laundry</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Name</td>
+                        <td>Address</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(laundry <- laundries) {
+                    <tr>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

@@ -1,0 +1,12 @@
+@(form: Form[User])
+@import b3.vertical.fieldConstructor;
+@main("Sign up!") {
+	@b3.form(routes.UserController.saveNewUser) {
+		<h1>Sign up!</h1>
+		@b3.text(form("name"), '_label -> "Name")
+		@b3.email(form("email"), '_label -> "SignupEmail")
+		@b3.password(form("password"), '_label -> "Password")
+		@b3.password(form("passwordConfirmation"), '_label -> "Password confirmation")
+		@b3.submit('class -> "btn btn-primary") { Sign up }
+	}
+}

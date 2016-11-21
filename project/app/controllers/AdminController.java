@@ -1,33 +1,34 @@
 package controllers;
 
-import java.util.List;
+import autenticadores.AuthenticatedAdmin;
+import daos.LaundryDAO;
+import daos.UserDAO;
+import models.Laundry;
+import models.User;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security.Authenticated;
+import views.html.listLaundries;
+import views.html.listUsers;
 
 import javax.inject.Inject;
+import java.util.List;
 
-import autenticadores.AdminAutenticado;
-import daos.ProdutoDAO;
-import daos.UsuarioDAO;
-import models.Produto;
-import models.Usuario;
-import play.mvc.*;
-import play.mvc.Security.Authenticated;
-import views.html.*;
-
-@Authenticated(AdminAutenticado.class)
+@Authenticated(AuthenticatedAdmin.class)
 public class AdminController extends Controller {
 
 	@Inject
-	private ProdutoDAO produtoDAO;
+	private LaundryDAO laundries;
 	@Inject
-	private UsuarioDAO usuarioDAO;
+	private UserDAO users;
 
-	public Result usuarios() {
-		List<Usuario> listaDeUsuarios = usuarioDAO.todos();
-		return ok(usuarios.render(listaDeUsuarios));
+	public Result users() {
+		List<User> users = this.users.all();
+		return ok(listUsers.render(users));
 	}
-	
-	public Result produtos() {
-		List<Produto> listaDeProdutos = produtoDAO.todos();
-		return ok(produtos.render(listaDeProdutos));
+
+	public Result laundries() {
+		List<Laundry> laundries = this.laundries.all();
+		return ok(listLaundries.render(laundries));
 	}
 }

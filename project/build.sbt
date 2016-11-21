@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "mysql" % "mysql-connector-java" % "5.1.36",
+  "org.postgresql" % "postgresql" % "9.4.1212.jre7",
   "com.adrianhurt"% "play-bootstrap_2.11" % "1.0-P25-B3",
   "com.typesafe.play" % "play-mailer_2.11" % "5.0.0-M1"
 )

@@ -1,0 +1,24 @@
+@(user: User)
+
+@main("User dashboard") {
+  <section class="jumbotron">
+    <h1>Dashboard</h1>
+    <p>Welcome, <strong>@user.getName()</strong>! This is your dashboard. Here you can check your access token and your past requests!</p>
+  </section>
+  <section class="panel panel-default">
+    <header class="panel-heading">
+      <h2 class="panel-title">Your personal access token</h2>
+    </header>
+    <p class="panel-body">
+      Your access token is:
+      <button class="btn" data-toggle="collapse" data-target="#tokenApi"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> see/hide</button>
+      <strong class="token collapse" id="tokenApi">@user.getToken().getCode()</strong>
+    </p>
+    <p class="panel-body">
+      The query the API, make a GET request to the following URL, adding your access token as the "API-Token" header: <pre>http://localhost:9000/api</pre>
+    </p>
+    <p class="panel-body">
+    	You've already done <strong>@user.getRequests().size()</strong> requests to our API.
+    </p>
+  </section>
+}

@@ -1,21 +1,19 @@
-GET  /admin/usuarios                  controllers.AdminController.usuarios
-GET  /admin/produtos                  controllers.AdminController.produtos
+GET  /admin/users                    controllers.AdminController.users
+GET  /admin/laundries                controllers.AdminController.laundries
 
-GET  /produto/novo                    controllers.ProdutoController.formularioDeNovoProduto
-POST /produto/novo                    controllers.ProdutoController.salvaNovoProduto
+GET  /admin/laundry/new              controllers.LaundryController.newLaundryForm
+POST /admin/laundry/new              controllers.LaundryController.saveLaundry
 
-GET  /usuario/novo                    controllers.UsuarioController.formularioDeNovoUsuario
-POST /usuario/novo                    controllers.UsuarioController.salvaNovoUsuario
-GET  /usuario/confirma/:email/:codigo controllers.UsuarioController.confirmaUsuario(email, codigo)
-GET  /usuario/painel                  controllers.UsuarioController.painel
+GET  /user/signup                    controllers.UserController.newUserForm
+POST /user/signup                    controllers.UserController.saveNewUser
+GET  /user/verify/:email/:code       controllers.UserController.verifyUser(email, code)
+GET  /user/dashboard                 controllers.UserController.dashboard
 
-GET  /login                           controllers.UsuarioController.formularioDeLogin
-POST /login                           controllers.UsuarioController.fazLogin
-GET  /logout                          controllers.UsuarioController.fazLogout
+GET  /login                          controllers.UserController.loginForm
+POST /login                          controllers.UserController.login
+GET  /logout                         controllers.UserController.logout
 
 # API
-GET  /api/produtos                    controllers.ApiController.comFiltros
-GET  /api/produtos/todos              controllers.ApiController.todos
-GET  /api/produtos/tipo/:tipo         controllers.ApiController.doTipo(tipo)
+GET  /teste                          controllers.ApiController.teste
 
-GET  /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
+GET  /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
