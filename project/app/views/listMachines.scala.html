@@ -1,35 +1,38 @@
-@(laundries: List[Laundry])
+@(laundry: Laundry)
 
 
 @asMoney(value: Double) = @{
     String.format("R$%.2f", value)
 }
-@main("Laundries list") {
+@main("Machines for "+laundry.getName) {
     <section class="panel panel-default">
         <header class="panel-heading">
-            <h2 class="panel-title">Laundries list</h2>
+            <h2 class="panel-title">Machines for @laundry.getName</h2>
         </header>
         <div class="panel-body">
-            <a class="btn btn-info" href="@routes.AdminController.laundryForm">New laundry</a>
+            <a class="btn btn-info" href="@routes.AdminController.machineForm">New machine</a>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
-                        <th>Address</th>
+                        <th>Type</th>
+                        <th>Use price</th>
+                        <th>Cycle duration</th>
+                        <th>Active until</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                @for(laundry <- laundries) {
+                @for(machine <- laundry.getMachines) {
                     <tr>
-                        <td>@laundry.getId</td>
-                        <td>@laundry.getName</td>
-                        <td>@laundry.getAddress</td>
+                        <td>@machine.getId</td>
+                        <td>@machine.getType</td>
+                        <td>@asMoney(machine.getUsePrice.doubleValue)</td>
+                        <td>@machine.getCycleDuration</td>
+                        <td>@machine.getActiveUntil</td>
                         <td>
-                            <select class="actions" data-id="@laundry.getId" data-model="laundry">
+                            <select class="actions" data-id="@machine.getId" data-model="machine">
                                 <option selected></option>
-                                <option value="/machines">Machines</option>
                                 <option value="/edit">Edit</option>
                                 <option value="/delete">Delete</option>
                             </select>

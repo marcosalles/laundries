@@ -23,47 +23,17 @@ public class AdminController extends Controller {
 	@Inject
 	private FormFactory forms;
 	@Inject
-	private LaundryValidator laundryValidator;
-	@Inject
-	private LaundryDAO laundries;
-	@Inject
 	private UserValidator userValidator;
 	@Inject
 	private UserDAO users;
-
-	public Result laundries() {
-		return ok(listLaundries.render(laundries.all()));
-	}
-
-	public Result laundryForm() {
-		Laundry laundry = new Laundry();
-		Form<Laundry> form = forms.form(Laundry.class).fill(laundry);
-		return ok(newLaundryForm.render(form));
-	}
-
-	public Result laundryCreate() {
-		Form<Laundry> form = forms.form(Laundry.class).bindFromRequest();
-		Laundry laundry = form.get();
-		if (laundryValidator.hasErrors(form)) {
-			flash("danger", "There are errors in your form!");
-			return badRequest(newLaundryForm.render(form));
-		}
-		laundry.save();
-		flash("success", "Your laundry '" + laundry.getName() + "' has been created!");
-		return redirect(controllers.routes.AdminController.laundries());
-	}
-
-	public Result laundryEdit() {
-		return TODO;// TODO
-	}
-
-	public Result laundryUpdate() {
-		return TODO;// TODO
-	}
-
-	public Result laundryDelete() {
-		return TODO;// TODO
-	}
+	@Inject
+	private LaundryValidator laundryValidator;
+	@Inject
+	private LaundryDAO laundries;
+//	@Inject
+//	private MachineValidator machineValidator;
+//	@Inject
+//	private MachineDAO machines;
 
 	public Result users() {
 		return ok(listUsers.render(users.all()));
@@ -76,54 +46,112 @@ public class AdminController extends Controller {
 
 	public Result userCreate() {
 		Form<User> form = forms.form(User.class).bindFromRequest();
-		if(form.hasErrors()) {
+		if (form.hasErrors()) {
 			return badRequest(adminUserForm.render(form));
 		}
 		User user = form.get();
 		user.save();
 		new ApiToken(user).save();
-		String payment = form.field("payment").valueOr("0.00");
+		Double payment = Double.parseDouble(form.field("payment").valueOr("0.00"));
 		new Payment(user, payment).save();
 		user.setVerified(true);
 		user.update();
 		return redirect(controllers.routes.AdminController.users());
 	}
 
-	public Result userEdit() {
-		return redirect(controllers.routes.AdminController.users());// TODO
+	public Result userEdit(Long id) {
+		return TODO;// TODO
 	}
 
 	public Result userUpdate() {
-		return redirect(controllers.routes.AdminController.users());// TODO
+		return TODO;// TODO
 	}
 
-	public Result userDelete(String code) {
-		User user = users.withToken(code).get();
-		user.getToken().delete();
-		user.setVerified(false);
-		user.update();
+	public Result userDelete(Long id) {
+		users.withId(id).ifPresent(User::delete);
 		return redirect(controllers.routes.AdminController.users());
+	}
+
+	public Result userAddCredits(Long id, Double value) {
+		Optional<User> optionalUser = users.withId(id);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			new Payment(user, value).save();
+		}
+		return redirect(controllers.routes.AdminController.users());
+	}
+
+	public Result laundries() {
+		return ok(listLaundries.render(laundries.all()));
+	}
+
+	public Result laundryForm() {
+		Form<Laundry> form = forms.form(Laundry.class);
+		return ok(adminLaundryForm.render(form));
+	}
+
+	public Result laundryCreate() {
+		Form<Laundry> form = forms.form(Laundry.class).bindFromRequest();
+		Laundry laundry = form.get();
+		if (laundryValidator.hasErrors(form)) {
+			flash("danger", "There are errors in your form!");
+			return badRequest(adminLaundryForm.render(form));
+		}
+		laundry.save();
+		flash("success", "Your laundry '" + laundry.getName() + "' has been created!");
+		return redirect(controllers.routes.AdminController.laundries());
+	}
+
+	public Result laundryEdit(Long id) {
+		return TODO;// TODO
+	}
+
+	public Result laundryUpdate() {
+		return TODO;// TODO
+	}
+
+	public Result laundryDelete(Long id) {
+		laundries.withId(id).ifPresent(Laundry::delete);
+		return redirect(controllers.routes.AdminController.laundries());
+	}
+
+	public Result machines(Long id) {
+		Laundry laundry = laundries.withId(id).get();
+		return ok(listMachines.render(laundry));
 	}
 
 	public Result machineForm() {
 		Form<Machine> form = forms.form(Machine.class);
-		return TODO;// TODO
+		return ok(adminMachineForm.render(form, laundries.all()));
 	}
 
 	public Result machineCreate() {
-		return redirect(controllers.routes.AdminController.users());// TODO
+		Form<Machine> form = forms.form(Machine.class).bindFromRequest();
+		Optional<Laundry> optionalLaundry = laundryFromForm(form);
+		Machine machine = form.get();
+		optionalLaundry.ifPresent(laundry -> {
+			machine.setLaundry(laundry);
+			machine.save();
+		});
+		Long id = machine.getLaundry().getId();
+		return redirect(controllers.routes.AdminController.machines(id));
 	}
 
-	public Result machineEdit() {
-		return redirect(controllers.routes.AdminController.users());// TODO
+	private Optional<Laundry> laundryFromForm(Form<Machine> form) {
+		Long id = Long.parseLong(form.field("laundry_id").value());
+		return laundries.withId(id);
+	}
+
+	public Result machineEdit(String id) {
+		return TODO;// TODO
 	}
 
 	public Result machineUpdate() {
-		return redirect(controllers.routes.AdminController.users());// TODO
+		return TODO;// TODO
 	}
 
-	public Result machineDelete() {
-		return redirect(controllers.routes.AdminController.users());// TODO
+	public Result machineDelete(String id) {
+		return TODO;// TODO
 	}
 
 }

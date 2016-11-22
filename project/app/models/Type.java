@@ -5,7 +5,7 @@ public enum Type {
 	DRYER,
 	COMBO;
 
-	public Type typeOf(int type) {
+	public static Type typeOf(int type) {
 		return values()[type-1];
 	}
 }

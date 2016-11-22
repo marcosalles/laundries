@@ -3,10 +3,8 @@ package models;
 import com.avaje.ebean.Model;
 import play.data.validation.Constraints.Required;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,14 +18,15 @@ public class Laundry extends Model {
 	@Required(message = "Required field")
 	private String address;
 	@OneToMany(mappedBy = "laundry")
-	private List<Machine> machines;
+	private List<Machine> machines = new ArrayList<>();
+
+	public Laundry(String name, String address) {
+		this.name = name;
+		this.address = address;
+	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -50,7 +49,11 @@ public class Laundry extends Model {
 		return machines;
 	}
 
-	public void setMachines(List<Machine> machines) {
-		this.machines = machines;
+	public boolean delete() {
+		getMachines().forEach(m -> {
+			m.setLaundry(null);
+			m.update();
+		});
+		return super.delete();
 	}
 }

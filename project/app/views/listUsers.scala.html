@@ -10,6 +10,9 @@
         user.getRequests().get(ultimo).getDate()
     }
 }
+@asMoney(value: Double) = @{
+    String.format("R$%.2f", value)
+}
 @main("Users list") {
     <section class="panel panel-default">
         <header class="panel-heading">
@@ -20,27 +23,33 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <td>Id</td>
-                        <td>Name</td>
-                        <td>Email</td>
-                        <td>Token</td>
-                        <td>Credit (R$)</td>
-                        <td>Requests</td>
-                        <td>Last request</td>
-                        <td>Actions</td>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Token</th>
+                        <th>Credit</th>
+                        <th>Requests</th>
+                        <th>Last request</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                 @for(user <- users) {
                     <tr>
-                        <td>@user.getId()</td>
-                        <td>@user.getName()</td>
-                        <td>@user.getEmail()</td>
-                        <td>@user.getToken()</td>
-                        <td>@user.getTotalCredits().toString</td>
+                        <td>@user.getId</td>
+                        <td>@user.getName</td>
+                        <td>@user.getEmail</td>
+                        <td>@user.getToken</td>
+                        <td>@asMoney(user.getTotalCredits.doubleValue)</td>
                         <td>@accessCount(user)</td>
                         <td>@lastAccess(user)</td>
-                        <td><a href="/admin/users/delete/@user.getToken()" class="btn btn-danger">Remover</a></td>
+                        <td>
+                            <select class="actions" data-id="@user.getId" data-model="user">
+                                <option selected></option>
+                                <option value="/edit">Edit</option>
+                                <option value="/delete">Delete</option>
+                            </select>
+                        </td>
                     </tr>
                 }
                 </tbody>
@@ -48,3 +57,4 @@
         </div>
     </section>
 }
+<script type="text/javascript" src="@routes.Assets.versioned("javascripts/actions.js")"></script>

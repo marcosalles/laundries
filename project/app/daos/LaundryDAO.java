@@ -22,4 +22,7 @@ public class LaundryDAO {
 		return laundries.all();
 	}
 
+	public Optional<Laundry> withId(Long id) {
+		return Optional.ofNullable(laundries.byId(id));
+	}
 }

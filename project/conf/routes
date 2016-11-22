@@ -1,23 +1,27 @@
+## ADMIN
 GET  /admin/users                     controllers.AdminController.users
-GET  /admin/users/create              controllers.AdminController.userForm
-POST /admin/users/create              controllers.AdminController.userCreate
-GET  /admin/users/edit                controllers.AdminController.userEdit
-POST /admin/users/update              controllers.AdminController.userUpdate
-GET  /admin/users/delete/:code        controllers.AdminController.userDelete(code)
+GET  /admin/user/create               controllers.AdminController.userForm
+POST /admin/user/create               controllers.AdminController.userCreate
+GET  /admin/user/:id/edit             controllers.AdminController.userEdit(id:Long)
+POST /admin/user/update               controllers.AdminController.userUpdate
+GET  /admin/user/:id/delete           controllers.AdminController.userDelete(id:Long)
+GET  /admin/user/:id/add/:value       controllers.AdminController.userAddCredits(id:Long,value:Double)
 
 GET  /admin/laundries                 controllers.AdminController.laundries
 GET  /admin/laundry/create            controllers.AdminController.laundryForm
 POST /admin/laundry/create            controllers.AdminController.laundryCreate
-GET  /admin/laundry/edit              controllers.AdminController.laundryEdit
+GET  /admin/laundry/:id/edit          controllers.AdminController.laundryEdit(id:Long)
 POST /admin/laundry/update            controllers.AdminController.laundryUpdate
-POST /admin/laundry/delete            controllers.AdminController.laundryDelete
+GET  /admin/laundry/:id/delete        controllers.AdminController.laundryDelete(id:Long)
 
+GET  /admin/laundry/:id/machines      controllers.AdminController.machines(id:Long)
 GET  /admin/machine/create            controllers.AdminController.machineForm
 POST /admin/machine/create            controllers.AdminController.machineCreate
-GET  /admin/machine/edit              controllers.AdminController.machineEdit
+GET  /admin/machine/:id/edit          controllers.AdminController.machineEdit(id)
 POST /admin/machine/update            controllers.AdminController.machineUpdate
-POST /admin/machine/delete            controllers.AdminController.machineDelete
+GET  /admin/machine/:id/delete        controllers.AdminController.machineDelete(id)
 
+## CUSTOMER
 GET  /user/signup                     controllers.UserController.newUserForm
 POST /user/signup                     controllers.UserController.saveNewUser
 GET  /user/verify/:email/:code        controllers.UserController.verifyUser(email, code)
@@ -28,6 +32,7 @@ POST /login                           controllers.UserController.login
 GET  /logout                          controllers.UserController.logout
 
 # API
-GET  /teste                          controllers.ApiController.teste
+GET  /api/activate                    controllers.ApiController.activate
+GET  /api/machine/new                 controllers.ApiController.createMachine
 
-GET  /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+GET  /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)

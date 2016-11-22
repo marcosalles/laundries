@@ -48,8 +48,8 @@ public class UserController extends Controller {
 			return badRequest(newUserForm.render(form));
 		}
 		User user = form.get();
-		String cryptoPass = Crypt.sha1(user.getPassword());
-		user.setPassword(SALT+cryptoPass);
+		String cryptoPass = Crypt.sha1(SALT+user.getPassword());
+		user.setPassword(cryptoPass);
 		user.save();
 		SignupToken token = new SignupToken(user);
 		token.save();
@@ -91,8 +91,8 @@ public class UserController extends Controller {
 	public Result login() {
 		DynamicForm form = forms.form().bindFromRequest();
 		String email = form.get("email");
-		String password = Crypt.sha1(form.get("password"));
-		Optional<User> optionalUser = users.withCredentials(email, SALT+password);
+		String password = Crypt.sha1(SALT+form.get("password"));
+		Optional<User> optionalUser = users.withCredentials(email, password);
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
 			if (user.isVerified()) {

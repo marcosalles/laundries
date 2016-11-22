@@ -5,7 +5,7 @@ import play.data.validation.Constraints.Required;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,21 +24,17 @@ public class User extends Model {
 	private boolean verified = false;
 	@Enumerated(EnumType.STRING)
 	private Role role = Role.CUSTOMER;
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private ApiToken token;
-	@OneToMany(mappedBy = "user")
-	private List<RequestLog> requests;
-	@OneToMany(mappedBy = "user")
-	private List<Payment> payments;
-	@OneToMany(mappedBy = "user")
-	private List<Activation> activations;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<RequestLog> requests = new ArrayList<>();
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Payment> payments = new ArrayList<>();
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Activation> activations = new ArrayList<>();
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -77,10 +73,6 @@ public class User extends Model {
 		return role;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
 	public ApiToken getToken() {
 		return token;
 	}
@@ -93,24 +85,12 @@ public class User extends Model {
 		return requests;
 	}
 
-	public void setRequests(List<RequestLog> requests) {
-		this.requests = requests;
-	}
-
 	public List<Payment> getPayments() {
 		return payments;
 	}
 
-	public void setPayments(List<Payment> payments) {
-		this.payments = payments;
-	}
-
 	public List<Activation> getActivations() {
 		return activations;
-	}
-
-	public void setActivations(List<Activation> activations) {
-		this.activations = activations;
 	}
 
 	public boolean isAdmin() {

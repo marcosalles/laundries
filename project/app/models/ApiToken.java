@@ -21,18 +21,17 @@ public class ApiToken extends Model {
 
 	public ApiToken(User user) {
 		this.user = user;
-		this.code = Crypt.sha1(Crypt.generateSecureCookie()+user.toString());
+		this.code = Crypt.sha1(Crypt.generateSecureCookie() + user.toString());
 	}
 
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public String getCode() {
 		return code;
 	}

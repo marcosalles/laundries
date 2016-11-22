@@ -29,4 +29,7 @@ public class UserDAO {
 		return users.all();
 	}
 
+	public Optional<User> withId(Long id) {
+		return Optional.ofNullable(users.byId(id));
+	}
 }

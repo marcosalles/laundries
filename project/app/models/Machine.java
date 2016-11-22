@@ -1,30 +1,39 @@
 package models;
 
+import akka.util.Crypt;
 import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Machine extends Model {
 
 	@Id
-	private final String id;
-	@OneToOne
+	private String id;
+	@ManyToOne
 	private Laundry laundry;
 	@Enumerated(EnumType.STRING)
 	private Type type;
+	@Column(precision = 10, scale = 2)
 	private BigDecimal usePrice;
 	private int cycleDuration;
-	private Date activeUntil;
+	private LocalDateTime activeUntil;
 
-	public Machine(String id) {
-		this.id = id;
+	public Machine() {
+		this.id = Crypt.sha1(Crypt.generateSecureCookie() + LocalDateTime.now().toString());
 	}
 
-	public Machine(String id, Laundry laundry, Type type, BigDecimal usePrice, int cycleDuration) {
-		this(id);
+	public Machine(Type type) {
+		this();
+		this.type = type;
+		this.usePrice = new BigDecimal(10.0);
+		this.cycleDuration = 5;
+	}
+
+	public Machine(Laundry laundry, Type type, BigDecimal usePrice, int cycleDuration) {
+		this();
 		this.laundry = laundry;
 		this.type = type;
 		this.usePrice = usePrice;
@@ -67,11 +76,19 @@ public class Machine extends Model {
 		this.cycleDuration = cycleDuration;
 	}
 
-	public Date getActiveUntil() {
+	public LocalDateTime getActiveUntil() {
 		return activeUntil;
 	}
 
-	public void setActiveUntil(Date activeUntil) {
-		this.activeUntil = activeUntil;
+	public boolean activate() {
+		if (isActive()) {
+			return false;
+		}
+		activeUntil = LocalDateTime.now().plusMinutes(cycleDuration);
+		return true;
+	}
+
+	public boolean isActive() {
+		return activeUntil == null || LocalDateTime.now().isBefore(activeUntil);
 	}
 }

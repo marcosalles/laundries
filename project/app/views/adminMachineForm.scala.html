@@ -1,0 +1,22 @@
+@(form: Form[Machine], laundries: List[Laundry])
+@import b3.vertical.fieldConstructor
+
+@types = @{Seq(Type.WASHER, Type.DRYER, Type.COMBO)}
+@main("New machine") {
+	@b3.form(routes.AdminController.machineCreate()) {
+		<h1>New machine</h1>
+		@b3.select(form("type"), '_label -> "Type") { implicit values =>
+			@for(t <- types) {
+				@b3.selectOption(t.toString(), t.toString())
+			}
+		}
+		@b3.number(form("usePrice"), '_label -> "Price per use", 'required -> true, 'value -> 0.0, 'step -> "0.05")
+		@b3.number(form("cycleDuration"), '_label -> "Cycle duration (minutes)", 'required -> true, 'value -> 5, 'step -> "1")
+		@b3.select(form("laundry_id"), '_label -> "Laundry") { implicit values =>
+			@for(laundry <- laundries) {
+				@b3.selectOption(laundry.getId, laundry.getName)
+			}
+		}
+		@b3.submit('class -> "btn btn-primary") { Create }
+	}	
+}

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class RequestLog extends Model {
@@ -18,13 +18,13 @@ public class RequestLog extends Model {
 	private User user;
 	private String ip;
 	private String uri;
-	private Date date;
+	private LocalDateTime date;
 
 	public RequestLog(User user, String ip, String uri) {
 		this.user = user;
 		this.ip = ip;
 		this.uri = uri;
-		this.date = new Date();
+		this.date = LocalDateTime.now();
 	}
 
 	public Long getId() {
@@ -43,7 +43,7 @@ public class RequestLog extends Model {
 		return uri;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 

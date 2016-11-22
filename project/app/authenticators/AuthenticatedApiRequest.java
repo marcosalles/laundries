@@ -2,6 +2,8 @@ package authenticators;
 
 import daos.UserDAO;
 import models.User;
+import play.data.DynamicForm;
+import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Http.Context;
 import play.mvc.Result;
@@ -15,17 +17,20 @@ import java.util.Optional;
 public class AuthenticatedApiRequest extends Authenticator {
 
 	@Inject
+	private FormFactory forms;
+	@Inject
 	private UserDAO userDAO;
 
 	@Override
 	public String getUsername(Context context) {
-		String code = context.request().getHeader("API-Token");
-		if ("1".equals(code)) { // FIXME remover
-			return "1";
-		}
+		DynamicForm form = forms.form().bindFromRequest(context.request());
+		String code = form.field("qrcode").value();
 		Optional<User> optionalUser = userDAO.withToken(code);
 		if (optionalUser.isPresent()) {
-			return optionalUser.get().getName();
+			User user = optionalUser.get();
+			if (user.isVerified()) {
+				return optionalUser.get().getName();
+			}
 		}
 		return null;
 	}
