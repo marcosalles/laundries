@@ -1,7 +1,7 @@
 package controllers;
 
 import actions.RequestLogAction;
-import autenticadores.AuthenticatedApiRequest;
+import authenticators.AuthenticatedApiRequest;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;

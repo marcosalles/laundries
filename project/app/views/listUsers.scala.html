@@ -1,45 +1,50 @@
 @(users: List[User])
 
 @accessCount(user: User) = @{
-	user.getRequests().size()
+    user.getRequests().size()
 }
 
 @lastAccess(user: User) = @{
-	var ultimo = accessCount(user)-1
-	if (ultimo >= 0) {
-		user.getRequests().get(ultimo).getDate()
-	}
+    var ultimo = accessCount(user) - 1
+    if(ultimo >= 0) {
+        user.getRequests().get(ultimo).getDate()
+    }
 }
 @main("Users list") {
-  <section class="panel panel-default">
-    <header class="panel-heading">
-      <h2 class="panel-title">Users list</h2>
-    </header>
-    <div class="panel-body">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <td>Id</td>
-            <td>Name</td>
-            <td>Email</td>
-            <td>Token</td>
-            <td>Requests</td>
-            <td>Last request</td>
-          </tr>
-        </thead>
-        <tbody>
-          @for(user <- users) {
-         <tr>
-            <td>@user.getId()</td>
-            <td>@user.getName()</td>
-            <td>@user.getEmail()</td>
-            <td>@user.getToken().getCode()</td>
-            <td>@accessCount(user)</td>
-            <td>@lastAccess(user)</td>
-          </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <section class="panel panel-default">
+        <header class="panel-heading">
+            <h2 class="panel-title">Users list</h2>
+        </header>
+        <div class="panel-body">
+            <a class="btn btn-info" href="@routes.AdminController.userForm">Create user</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Name</td>
+                        <td>Email</td>
+                        <td>Token</td>
+                        <td>Credit (R$)</td>
+                        <td>Requests</td>
+                        <td>Last request</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(user <- users) {
+                    <tr>
+                        <td>@user.getId()</td>
+                        <td>@user.getName()</td>
+                        <td>@user.getEmail()</td>
+                        <td>@user.getToken()</td>
+                        <td>@user.getTotalCredits().toString</td>
+                        <td>@accessCount(user)</td>
+                        <td>@lastAccess(user)</td>
+                        <td><a href="/admin/users/delete/@user.getToken()" class="btn btn-danger">Remover</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }

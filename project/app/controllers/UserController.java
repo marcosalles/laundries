@@ -1,7 +1,7 @@
 package controllers;
 
 import akka.util.Crypt;
-import autenticadores.AuthenticatedCustomer;
+import authenticators.AuthenticatedCustomer;
 import daos.SignupTokenDAO;
 import daos.UserDAO;
 import models.ApiToken;
@@ -92,7 +92,7 @@ public class UserController extends Controller {
 		DynamicForm form = forms.form().bindFromRequest();
 		String email = form.get("email");
 		String password = Crypt.sha1(form.get("password"));
-		Optional<User> optionalUser = users.withCredentials(email, password);
+		Optional<User> optionalUser = users.withCredentials(email, SALT+password);
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
 			if (user.isVerified()) {

@@ -4,6 +4,8 @@ import com.avaje.ebean.Model;
 import play.data.validation.Constraints.Required;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 @Entity
@@ -20,11 +22,16 @@ public class User extends Model {
 	@Required(message = "Required field")
 	private String password;
 	private boolean verified = false;
+	@Enumerated(EnumType.STRING)
 	private Role role = Role.CUSTOMER;
 	@OneToOne(mappedBy = "user")
 	private ApiToken token;
 	@OneToMany(mappedBy = "user")
 	private List<RequestLog> requests;
+	@OneToMany(mappedBy = "user")
+	private List<Payment> payments;
+	@OneToMany(mappedBy = "user")
+	private List<Activation> activations;
 
 	public Long getId() {
 		return id;
@@ -90,7 +97,31 @@ public class User extends Model {
 		this.requests = requests;
 	}
 
+	public List<Payment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(List<Payment> payments) {
+		this.payments = payments;
+	}
+
+	public List<Activation> getActivations() {
+		return activations;
+	}
+
+	public void setActivations(List<Activation> activations) {
+		this.activations = activations;
+	}
+
 	public boolean isAdmin() {
 		return Role.ADMIN.equals(role);
+	}
+
+	public BigDecimal getTotalCredits() {
+		BigDecimal totalPayments = payments.stream().map(p -> p.getValue())
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		BigDecimal totalActivations = activations.stream().map(p -> p.getMachine().getUsePrice())
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		return totalPayments.subtract(totalActivations);
 	}
 }

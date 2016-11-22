@@ -1,0 +1,18 @@
+@(form: Form[User])
+@roles = @{Seq(Role.CUSTOMER, Role.ADMIN)}
+@import b3.vertical.fieldConstructor;
+@main("Create new user") {
+	@b3.form(routes.AdminController.userCreate()) {
+		<h1>Create a new user</h1>
+		@b3.text(form("name"), '_label -> "Name")
+		@b3.email(form("email"), '_label -> "Email")
+		@b3.password(form("password"), '_label -> "Password")
+		@b3.select(form("role"), '_label -> "Role") { implicit values =>
+			@for(role <- roles) {
+				@b3.selectOption(role.toString(), role.toString())
+			}
+		}
+		@b3.number(form("payment"), '_label -> "Paid", 'required -> true, 'value -> 0.0, 'step -> "0.05")
+		@b3.submit('class -> "btn btn-primary") { Create }
+	}
+}

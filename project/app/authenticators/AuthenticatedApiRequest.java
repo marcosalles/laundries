@@ -1,4 +1,4 @@
-package autenticadores;
+package authenticators;
 
 import daos.UserDAO;
 import models.User;

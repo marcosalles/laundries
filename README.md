@@ -29,6 +29,7 @@ machine {
 	laundry_id		REF
 	kind					ENUM [WASH, DRY]
 	use_price			DOUBLE
+	cycle_duration INT
 	active_until	TIMESTAMP
 }
 
