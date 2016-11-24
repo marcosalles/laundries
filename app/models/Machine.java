@@ -89,6 +89,6 @@ public class Machine extends Model {
 	}
 
 	public boolean isActive() {
-		return activeUntil == null || LocalDateTime.now().isBefore(activeUntil);
+		return activeUntil != null && LocalDateTime.now().isBefore(activeUntil);
 	}
 }

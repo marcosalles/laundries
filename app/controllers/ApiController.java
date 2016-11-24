@@ -42,9 +42,12 @@ public class ApiController extends Controller {
 		if (optionalMachine.isPresent()) {
 			Machine machine = optionalMachine.get();
 			if (userHasEnoughCreditsToUseMachine(user, machine)) {
-				machine.activate();
-				new Activation(user, machine).save();
-				return ok(wrap(tuple("authorized", true)));
+				if (machine.activate()) {
+					new Activation(user, machine).save();
+					return ok(wrap(tuple("authorized", true)));
+				} else {
+					reasons.add("Machine already active");
+				}
 			}
 			reasons.add("Not enough credit");
 		} else {
