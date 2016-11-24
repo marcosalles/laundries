@@ -1,5 +1,4 @@
 name := """laundries"""
-herokuAppName in Compile := "laundries"
 
 version := "1.0-SNAPSHOT"
 
