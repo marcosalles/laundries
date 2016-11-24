@@ -17,6 +17,7 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Address</th>
+                        <th># of machines</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -26,11 +27,12 @@
                         <td>@laundry.getId</td>
                         <td>@laundry.getName</td>
                         <td>@laundry.getAddress</td>
+                        <td>@laundry.getMachines.size</td>
                         <td>
                             <select class="actions" data-id="@laundry.getId" data-model="laundry">
                                 <option selected></option>
                                 <option value="/machines">Machines</option>
-                                <option value="/edit">Edit</option>
+                                @*<option value="/edit">Edit</option>*@
                                 <option value="/delete">Delete</option>
                             </select>
                         </td>

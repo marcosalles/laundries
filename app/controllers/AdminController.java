@@ -1,7 +1,10 @@
 package controllers;
 
 import authenticators.AuthenticatedAdmin;
+import controllers.*;
+import controllers.routes;
 import daos.LaundryDAO;
+import daos.MachineDAO;
 import daos.UserDAO;
 import models.*;
 import play.data.Form;
@@ -30,10 +33,8 @@ public class AdminController extends Controller {
 	private LaundryValidator laundryValidator;
 	@Inject
 	private LaundryDAO laundries;
-//	@Inject
-//	private MachineValidator machineValidator;
-//	@Inject
-//	private MachineDAO machines;
+	@Inject
+	private MachineDAO machines;
 
 	public Result users() {
 		return ok(listUsers.render(users.all()));
@@ -151,7 +152,16 @@ public class AdminController extends Controller {
 	}
 
 	public Result machineDelete(String id) {
-		return TODO;// TODO
+		Optional<Machine> optionalMachine = machines.withId(id);
+		if (optionalMachine.isPresent()) {
+			Machine machine = optionalMachine.get();
+			Laundry laundry = machine.getLaundry();
+			machine.delete();
+			flash("success", "Machine deleted.");
+			return redirect(controllers.routes.AdminController.machines(laundry.getId()));
+		}
+		flash("danger", "Machine not found. Not deleted.");
+		return redirect(controllers.routes.AdminController.laundries());
 	}
 
 }

@@ -10,7 +10,7 @@
 				@b3.selectOption(t.toString(), t.toString())
 			}
 		}
-		@b3.number(form("usePrice"), '_label -> "Price per use", 'required -> true, 'value -> 0.0, 'step -> "0.05")
+		@b3.number(form("usePrice"), '_label -> "Price per use", 'required -> true, 'value -> 0.0, 'step -> "0.01")
 		@b3.number(form("cycleDuration"), '_label -> "Cycle duration (minutes)", 'required -> true, 'value -> 5, 'step -> "1")
 		@b3.select(form("laundry_id"), '_label -> "Laundry") { implicit values =>
 			@for(laundry <- laundries) {
