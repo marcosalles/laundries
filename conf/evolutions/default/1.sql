@@ -5,7 +5,6 @@ create table activation (
   user_id                       bigint,
   machine_id                    varchar(255),
   date                          timestamp,
-  constraint uq_activation_machine_id unique (machine_id),
   constraint pk_activation primary key (id)
 );
 
@@ -40,7 +39,6 @@ create table payment (
   user_id                       bigint,
   value                         decimal(20,2),
   date                          timestamp,
-  constraint uq_payment_user_id unique (user_id),
   constraint pk_payment primary key (id)
 );
 
@@ -124,4 +122,3 @@ drop table if exists request_log cascade;
 drop table if exists signup_token cascade;
 
 drop table if exists users cascade;
-

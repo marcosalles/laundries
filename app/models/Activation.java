@@ -13,7 +13,7 @@ public class Activation extends Model {
 	private Long id;
 	@ManyToOne
 	private User user;
-	@OneToOne
+	@ManyToOne
 	private Machine machine;
 	private LocalDateTime date;
 
