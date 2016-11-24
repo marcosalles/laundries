@@ -12,7 +12,7 @@ public class Payment extends Model {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@OneToOne
+	@ManyToOne
 	private User user;
 	@Column(precision = 20, scale = 2)
 	private BigDecimal value;
