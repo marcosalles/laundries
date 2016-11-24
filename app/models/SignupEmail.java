@@ -18,7 +18,7 @@ public class SignupEmail extends play.libs.mailer.Email {
 	}
 
 	private String buildLink(String email, String code) {
-		return String.format("http://localhost:9000/user/verify/%s/%s", email, code);
+		return String.format("https://laundries.herokuapp.com/user/verify/%s/%s", email, code);
 	}
 
 	private String buildBody(User user, SignupToken token) {

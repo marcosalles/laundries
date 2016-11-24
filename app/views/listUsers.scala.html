@@ -20,40 +20,42 @@
         </header>
         <div class="panel-body">
             <a class="btn btn-info" href="@routes.AdminController.userForm">Create user</a>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Token</th>
-                        <th>Credit</th>
-                        <th>Requests</th>
-                        <th>Last request</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @for(user <- users) {
-                    <tr>
-                        <td>@user.getId</td>
-                        <td>@user.getName</td>
-                        <td>@user.getEmail</td>
-                        <td>@user.getToken</td>
-                        <td>@asMoney(user.getTotalCredits.doubleValue)</td>
-                        <td>@accessCount(user)</td>
-                        <td>@lastAccess(user)</td>
-                        <td>
-                            <select class="actions" data-id="@user.getId" data-model="user">
-                                <option selected></option>
-                                @*<option value="/edit">Edit</option>*@
-                                <option value="/delete">Delete</option>
-                            </select>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Token</th>
+                          <th>Credit</th>
+                          <th>Requests</th>
+                          <th>Last request</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  @for(user <- users) {
+                      <tr>
+                          <td>@user.getId</td>
+                          <td>@user.getName</td>
+                          <td>@user.getEmail</td>
+                          <td>@user.getToken</td>
+                          <td>@asMoney(user.getTotalCredits.doubleValue)</td>
+                          <td>@accessCount(user)</td>
+                          <td>@lastAccess(user)</td>
+                          <td>
+                              <select class="actions" data-id="@user.getId" data-model="user">
+                                  <option selected></option>
+                                  @*<option value="/edit">Edit</option>*@
+                                  <option value="/delete">Delete</option>
+                              </select>
+                          </td>
+                      </tr>
+                  }
+                  </tbody>
+              </table>
+            </div>
         </div>
     </section>
 }

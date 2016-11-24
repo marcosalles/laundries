@@ -11,35 +11,37 @@
         </header>
         <div class="panel-body">
             <a class="btn btn-info" href="@routes.AdminController.laundryForm">New laundry</a>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th># of machines</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @for(laundry <- laundries) {
-                    <tr>
-                        <td>@laundry.getId</td>
-                        <td>@laundry.getName</td>
-                        <td>@laundry.getAddress</td>
-                        <td>@laundry.getMachines.size</td>
-                        <td>
-                            <select class="actions" data-id="@laundry.getId" data-model="laundry">
-                                <option selected></option>
-                                <option value="/machines">Machines</option>
-                                @*<option value="/edit">Edit</option>*@
-                                <option value="/delete">Delete</option>
-                            </select>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                          <th>Address</th>
+                          <th># of machines</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  @for(laundry <- laundries) {
+                      <tr>
+                          <td>@laundry.getId</td>
+                          <td>@laundry.getName</td>
+                          <td>@laundry.getAddress</td>
+                          <td>@laundry.getMachines.size</td>
+                          <td>
+                              <select class="actions" data-id="@laundry.getId" data-model="laundry">
+                                  <option selected></option>
+                                  <option value="/machines">Machines</option>
+                                  @*<option value="/edit">Edit</option>*@
+                                  <option value="/delete">Delete</option>
+                              </select>
+                          </td>
+                      </tr>
+                  }
+                  </tbody>
+              </table>
+            </div>
         </div>
     </section>
 }

@@ -21,8 +21,6 @@ import play.mvc.With;
 
 import java.util.*;
 
-@Security.Authenticated(AuthenticatedApiRequest.class)
-@With(RequestLogAction.class)
 public class ApiController extends Controller {
 
 	@Inject
@@ -32,6 +30,8 @@ public class ApiController extends Controller {
 	@Inject
 	private UserDAO users;
 
+	@Security.Authenticated(AuthenticatedApiRequest.class)
+	@With(RequestLogAction.class)
 	public Result activate() {
 		DynamicForm form = forms.form().bindFromRequest();
 		String qrcode = form.field("qrcode").value();
