@@ -54,7 +54,7 @@ public class ApiController extends Controller {
 		} else {
 			reasons.add("Machine id is invalid");
 		}
-		return badRequest(wrap(tuple("authorized", false), tuple("reasons", reasons)));
+		return badRequest(wrap(tuple("authorized", false), tuple("errors", reasons)));
 	}
 
 	private boolean userHasEnoughCreditsToUseMachine(User user, Machine machine) {
