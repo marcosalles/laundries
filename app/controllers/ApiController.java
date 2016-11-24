@@ -43,6 +43,7 @@ public class ApiController extends Controller {
 			Machine machine = optionalMachine.get();
 			if (userHasEnoughCreditsToUseMachine(user, machine)) {
 				if (machine.activate()) {
+					machine.update();
 					new Activation(user, machine).save();
 					return ok(wrap(tuple("authorized", true)));
 				} else {
