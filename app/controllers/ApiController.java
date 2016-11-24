@@ -57,12 +57,10 @@ public class ApiController extends Controller {
 		return user.getTotalCredits().compareTo(machine.getUsePrice()) >= 0;
 	}
 
-	public Result createMachine() {
-		DynamicForm form = forms.form().bindFromRequest();
-		int type = Integer.parseInt(form.field("type").value());
+	public Result createMachine(Integer type) {
 		Machine machine = new Machine(Type.typeOf(type));
 		machine.save();
-		return ok(wrap("id", machine.getId()));
+		return ok(wrap(tuple("id", machine.getId())));
 	}
 
 	public Tuple<String, Object> tuple(String key, Object value) {

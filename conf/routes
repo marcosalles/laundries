@@ -33,6 +33,6 @@ GET  /logout                          controllers.UserController.logout
 
 # API
 GET  /api/activate                    controllers.ApiController.activate
-GET  /api/machine/new                 controllers.ApiController.createMachine
+GET  /api/machine/new/:type           controllers.ApiController.createMachine(type:Integer)
 
 GET  /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
