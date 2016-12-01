@@ -45,7 +45,7 @@ public class ApiController extends Controller {
 				if (machine.activate()) {
 					machine.update();
 					new Activation(user, machine).save();
-					return ok(wrap(tuple("authorized", true)));
+					return ok(wrap(tuple("authorized", "true")));
 				} else {
 					reasons.add("Machine already active");
 				}
