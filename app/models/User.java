@@ -100,7 +100,7 @@ public class User extends Model {
 	public BigDecimal getTotalCredits() {
 		BigDecimal totalPayments = payments.stream().map(p -> p.getValue())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
-		BigDecimal totalActivations = activations.stream().map(p -> p.getMachine().getUsePrice())
+		BigDecimal totalActivations = activations.stream().map(a -> a.getPricePaid())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		return totalPayments.subtract(totalActivations);
 	}

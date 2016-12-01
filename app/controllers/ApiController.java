@@ -49,8 +49,9 @@ public class ApiController extends Controller {
 				} else {
 					reasons.add("Machine already active");
 				}
+			} else {
+				reasons.add("Not enough credit");
 			}
-			reasons.add("Not enough credit");
 		} else {
 			reasons.add("Machine id is invalid");
 		}

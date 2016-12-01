@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 public class Activation extends Model {
@@ -15,12 +16,14 @@ public class Activation extends Model {
 	private User user;
 	@ManyToOne
 	private Machine machine;
+	private BigDecimal pricePaid;
 	private LocalDateTime date;
 
 	public Activation(User user, Machine machine) {
 		this.user = user;
 		this.machine = machine;
 		this.date = LocalDateTime.now();
+		this.pricePaid = machine.getUsePrice();
 	}
 
 	public Long getId() {
@@ -39,4 +42,7 @@ public class Activation extends Model {
 		return date;
 	}
 
+	public BigDecimal getPricePaid() {
+		return pricePaid;
+	}
 }
